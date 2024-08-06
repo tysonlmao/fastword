@@ -1,3 +1,4 @@
+```
 [fastword] Enter your email address:
 user@example.com
 [fastword] Scribe desired length...
@@ -7,4 +8,4 @@ user@example.com
 email: user@example.com
 password: AbcdEFG123!@#
 ******************************
-in 0.15 ms using fastword
+in 0.15 ms using fastword```
