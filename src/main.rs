@@ -29,8 +29,14 @@ fn is_valid_email(email: &str) -> bool {
 }
 
 fn main() {
+    // ANSI escape codes
+    let orange = "\x1b[38;2;255;165;0m";
+    let green = "\x1b[32m";
+    let red = "\x1b[31m";
+    let reset = "\x1b[0m";
+
     let email = loop {
-        println!("[fastword] Enter your email address:");
+        println!("{}[fastword]{} Enter your email address:", orange, reset);
 
         let mut email = String::new();
         io::stdin()
@@ -39,7 +45,7 @@ fn main() {
 
         let email = email.trim();
 
-        // Validate the email address
+        // bro is this even an email?
         if email.is_empty() || is_valid_email(email) {
             break email.to_string();
         } else {
@@ -47,10 +53,10 @@ fn main() {
         }
     };
 
-    println!("[fastword] Scribe desired length...");
-    println!("[fastword] Default is 12");
+    println!("{}[fastword]{} Scribe desired length...", orange, reset);
+    println!("{}[fastword]{} Default is 12", orange, reset);
 
-    // Read input for length
+    // check length
     let mut input = String::new();
     io::stdin()
         .read_line(&mut input)
@@ -58,7 +64,7 @@ fn main() {
 
     let input = input.trim();
     let length: usize = if input.is_empty() {
-        12 // Default value
+        12
     } else {
         input.parse().expect("Please enter a valid number")
     };
@@ -70,6 +76,8 @@ fn main() {
     let duration = start.elapsed();
     let ms = duration.as_secs_f64() * 1000.0;
 
+    let time_color = if ms > 10.0 { red } else { green };
+
     println!("******************************");
 
     if !email.is_empty() {
@@ -78,5 +86,12 @@ fn main() {
 
     println!("password: {}", password);
     println!("******************************");
-    println!("in {:.2} ms using fastword", ms);
+    println!("{}in {:.2} ms using fastword{}", time_color, ms, reset);
+
+    // Wait for user input before exiting (prevents window from closing immediately on Windows)
+    println!("{}[fastword]{} exit when ready...", orange, reset);
+    let mut exit_input = String::new();
+    io::stdin()
+        .read_line(&mut exit_input)
+        .expect("Failed to read input");
 }
